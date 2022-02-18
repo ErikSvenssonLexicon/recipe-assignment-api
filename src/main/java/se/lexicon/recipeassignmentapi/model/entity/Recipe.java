@@ -1,4 +1,4 @@
-package se.lexicon.recipeassignmentapi.model;
+package se.lexicon.recipeassignmentapi.model.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 

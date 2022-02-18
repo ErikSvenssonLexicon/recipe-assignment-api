@@ -5,7 +5,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import se.lexicon.recipeassignmentapi.model.Ingredient;
+import se.lexicon.recipeassignmentapi.model.entity.Ingredient;
 
 import java.util.Optional;
 
