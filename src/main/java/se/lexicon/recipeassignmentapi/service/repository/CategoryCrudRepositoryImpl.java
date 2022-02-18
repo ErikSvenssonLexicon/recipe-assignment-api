@@ -7,8 +7,6 @@ import se.lexicon.recipeassignmentapi.model.dto.CategoryDto;
 import se.lexicon.recipeassignmentapi.model.entity.Category;
 import se.lexicon.recipeassignmentapi.repository.CategoryRepository;
 
-import java.util.function.Supplier;
-
 @Service
 @Transactional
 public class CategoryCrudRepositoryImpl implements CategoryCrudRepository{
@@ -17,10 +15,6 @@ public class CategoryCrudRepositoryImpl implements CategoryCrudRepository{
 
     public CategoryCrudRepositoryImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
-    }
-
-    public Supplier<AppResourceNotFoundException> getException(String message){
-        return () ->  new AppResourceNotFoundException(message);
     }
 
     @Override
