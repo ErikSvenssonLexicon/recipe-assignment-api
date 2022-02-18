@@ -14,7 +14,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, String> {
     List<Recipe> findByRecipeTitle(@Param("title") String title);
 
     @Query("SELECT r FROM Recipe r JOIN FETCH r.recipeIngredients AS ri WHERE UPPER(ri.ingredient.ingredientName) LIKE UPPER(CONCAT('%',:ingredientName,'%'))")
-    Slice<Recipe> findByRecipeIngredientsIngredientIngredientNameContainsIgnoreCase(@Param("ingredientName") String ingredientName, Pageable pageable);
+    Slice<Recipe> findByIngredientName(@Param("ingredientName") String ingredientName, Pageable pageable);
 
     @Query("SELECT r FROM Recipe r JOIN FETCH r.categories AS c WHERE UPPER(c.categoryName) = UPPER(:category)")
     Slice<Recipe> searchByCategoryName(@Param("category") String categoryName, Pageable pageable);
