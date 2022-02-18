@@ -2,7 +2,6 @@ package se.lexicon.recipeassignmentapi.service.repository;
 
 import se.lexicon.recipeassignmentapi.exception.AppResourceNotFoundException;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public interface GenericCrudRepository<T, ID, DTO> {
