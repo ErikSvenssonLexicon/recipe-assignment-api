@@ -1,9 +1,19 @@
 package se.lexicon.recipeassignmentapi.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "recipe_ingredients")
 public class RecipeIngredient {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name ="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(updatable = false, name = "id")
     private String id;
+    @Column(name = "amount")
     private Double amount;
 
     public RecipeIngredient() {
