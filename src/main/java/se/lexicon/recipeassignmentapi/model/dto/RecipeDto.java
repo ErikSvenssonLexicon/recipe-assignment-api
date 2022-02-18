@@ -11,8 +11,11 @@ public class RecipeDto implements Serializable {
 
     private String id;
     private String recipeTitle;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String recipeDescription;
     private LocalDateTime lastUpdate;
+    private boolean published;
+    private boolean hidden;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<RecipeInstructionDto> recipeInstructions;
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -23,11 +26,13 @@ public class RecipeDto implements Serializable {
     public RecipeDto() {
     }
 
-    public RecipeDto(String id, String recipeTitle, String recipeDescription, LocalDateTime lastUpdate, List<RecipeInstructionDto> recipeInstructions, List<RecipeIngredientDto> recipeIngredients, Set<CategoryDto> categories) {
+    public RecipeDto(String id, String recipeTitle, String recipeDescription, LocalDateTime lastUpdate, boolean published, boolean hidden, List<RecipeInstructionDto> recipeInstructions, List<RecipeIngredientDto> recipeIngredients, Set<CategoryDto> categories) {
         this.id = id;
         this.recipeTitle = recipeTitle;
         this.recipeDescription = recipeDescription;
         this.lastUpdate = lastUpdate;
+        this.published = published;
+        this.hidden = hidden;
         this.recipeInstructions = recipeInstructions;
         this.recipeIngredients = recipeIngredients;
         this.categories = categories;
@@ -63,6 +68,22 @@ public class RecipeDto implements Serializable {
 
     public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public boolean isPublished() {
+        return published;
+    }
+
+    public void setPublished(boolean published) {
+        this.published = published;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
     public List<RecipeInstructionDto> getRecipeInstructions() {
