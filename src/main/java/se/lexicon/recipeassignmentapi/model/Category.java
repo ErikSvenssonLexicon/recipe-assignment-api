@@ -1,9 +1,20 @@
 package se.lexicon.recipeassignmentapi.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "app_categories")
 public class Category {
+
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name ="UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(updatable = false, name = "id")
     private String id;
+    @Column(name = "category", unique = true)
     private String category;
 
     public Category(String id, String category) {
