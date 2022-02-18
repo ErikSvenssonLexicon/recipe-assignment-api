@@ -15,11 +15,11 @@ public class Category {
     @Column(updatable = false, name = "id")
     private String id;
     @Column(name = "category", unique = true)
-    private String category;
+    private String categoryName;
 
-    public Category(String id, String category) {
+    public Category(String id, String categoryName) {
         this.id = id;
-        this.category = category;
+        this.categoryName = categoryName;
     }
 
     public Category() {
@@ -33,12 +33,12 @@ public class Category {
         this.id = id;
     }
 
-    public String getCategory() {
-        return category;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryName(String category) {
+        this.categoryName = category;
     }
 
     @Override
@@ -46,11 +46,11 @@ public class Category {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Category category1 = (Category) o;
-        return Objects.equals(category, category1.category);
+        return Objects.equals(categoryName, category1.categoryName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(category);
+        return Objects.hash(categoryName);
     }
 }
