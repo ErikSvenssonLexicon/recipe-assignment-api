@@ -25,6 +25,10 @@ public class Recipe {
     private String recipeDescription;
     @Column(name = "last_update")
     private LocalDateTime lastUpdate;
+    @Column(name = "published")
+    private boolean published;
+    @Column(name = "hidden")
+    private boolean hidden;
 
     @OneToMany(
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
@@ -102,6 +106,22 @@ public class Recipe {
 
     public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public boolean isPublished() {
+        return published;
+    }
+
+    public void setPublished(boolean published) {
+        this.published = published;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
     public List<RecipeInstruction> getRecipeInstructions() {
