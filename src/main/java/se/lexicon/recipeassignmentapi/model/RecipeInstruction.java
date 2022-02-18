@@ -16,6 +16,9 @@ public class RecipeInstruction {
     private String id;
     @Column(name = "instruction", length = 500)
     private String instruction;
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH} , fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_recipe_id")
+    private Recipe recipe;
 
     public RecipeInstruction(String id, String instruction) {
         this.id = id;
@@ -35,6 +38,14 @@ public class RecipeInstruction {
 
     public String getInstruction() {
         return instruction;
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
     }
 
     public void setInstruction(String instruction) {
