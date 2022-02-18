@@ -10,4 +10,8 @@ import java.util.Optional;
 public interface CategoryRepository extends JpaRepository<Category, String> {
     @Query("SELECT c FROM Category c WHERE UPPER(c.categoryName) = UPPER(:category)")
     Optional<Category> findByCategory(@Param("category") String category);
+
+    @Query("SELECT c FROM Category c WHERE UPPER(c.categoryName) = UPPER(:categoryName)")
+    Optional<Category> findByCategoryName(@Param("categoryName") String categoryName);
+
 }
