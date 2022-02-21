@@ -150,4 +150,14 @@ public class Recipe {
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }
+
+    @PrePersist
+    void prePersist(){
+        setLastUpdate(lastUpdate != null ? lastUpdate : LocalDateTime.now());
+    }
+
+    @PreUpdate
+    void preUpdate(){
+        setLastUpdate(LocalDateTime.now());
+    }
 }
