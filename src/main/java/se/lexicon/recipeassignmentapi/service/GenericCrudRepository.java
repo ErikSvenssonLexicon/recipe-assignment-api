@@ -1,4 +1,4 @@
-package se.lexicon.recipeassignmentapi.service.repository;
+package se.lexicon.recipeassignmentapi.service;
 
 import se.lexicon.recipeassignmentapi.exception.AppResourceNotFoundException;
 
