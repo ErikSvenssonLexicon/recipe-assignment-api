@@ -21,8 +21,8 @@ public class CategoryCrudRepositoryImpl implements CategoryCrudRepository{
     public Category create(CategoryDto form) {
         if(form == null) throw new IllegalArgumentException("CategoryDto was null");
         form.setCategoryName(form.getCategoryName().trim());
-        return categoryRepository.findByCategory(form.getCategoryName())
-                .orElseGet(() -> categoryRepository.save(new Category(null, form.getCategoryName())));
+        return categoryRepository.findByCategory(form.getCategoryName().trim())
+                .orElseGet(() -> categoryRepository.save(new Category(null, form.getCategoryName().trim())));
     }
 
     @Override
