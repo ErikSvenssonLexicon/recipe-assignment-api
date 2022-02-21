@@ -130,6 +130,14 @@ public class Recipe {
     }
 
     public void setRecipeInstructions(List<RecipeInstruction> recipeInstructions) {
+        if(recipeInstructions == null) recipeInstructions = new ArrayList<>();
+        if(recipeInstructions.isEmpty()){
+            if(this.recipeInstructions != null){
+                this.recipeInstructions.forEach(recipeInstruction -> recipeInstruction.setRecipe(null));
+            }
+        }else{
+            recipeInstructions.forEach(recipeInstruction -> recipeInstruction.setRecipe(this));
+        }
         this.recipeInstructions = recipeInstructions;
     }
 
@@ -139,6 +147,14 @@ public class Recipe {
     }
 
     public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+        if(recipeIngredients == null) recipeIngredients = new ArrayList<>();
+        if(recipeIngredients.isEmpty()){
+            if(this.recipeIngredients != null){
+                this.recipeIngredients.forEach(recipeIngredient -> recipeIngredient.setRecipe(null));
+            }
+        }else{
+            recipeIngredients.forEach(recipeIngredient -> recipeIngredient.setRecipe(this));
+        }
         this.recipeIngredients = recipeIngredients;
     }
 
