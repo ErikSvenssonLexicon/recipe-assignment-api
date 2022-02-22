@@ -7,7 +7,6 @@ import se.lexicon.recipeassignmentapi.validation.OnPut;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
