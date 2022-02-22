@@ -1,13 +1,31 @@
 package se.lexicon.recipeassignmentapi.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.validation.annotation.Validated;
+import se.lexicon.recipeassignmentapi.validation.OnPost;
+import se.lexicon.recipeassignmentapi.validation.OnPut;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 
+import static se.lexicon.recipeassignmentapi.validation.ValidationMessages.MANDATORY_FIELD;
+import static se.lexicon.recipeassignmentapi.validation.ValidationMessages.POSITIVE_VALUE;
+
+@Validated
 public class RecipeIngredientDto implements Serializable {
+
+    @NotBlank(groups = OnPut.class)
     private String id;
+    @NotNull(message = MANDATORY_FIELD, groups = {OnPut.class, OnPost.class})
+    @Positive(message = POSITIVE_VALUE, groups = {OnPut.class, OnPost.class})
     private Double amount;
+    @NotBlank(message = MANDATORY_FIELD, groups = {OnPut.class, OnPost.class})
     private String measurement;
+    @NotNull(message = MANDATORY_FIELD, groups = {OnPut.class, OnPost.class})
+    @Valid
     private IngredientDto ingredient;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private RecipeDto recipe;
