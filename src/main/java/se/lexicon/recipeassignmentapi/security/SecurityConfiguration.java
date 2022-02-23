@@ -17,10 +17,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final RecipeUserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JWTUtil jwtUtil;
 
-    public SecurityConfiguration(RecipeUserDetailsService userDetailsService, BCryptPasswordEncoder passwordEncoder) {
+    public SecurityConfiguration(RecipeUserDetailsService userDetailsService, BCryptPasswordEncoder passwordEncoder, JWTUtil jwtUtil) {
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -32,7 +34,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .csrf().disable()
+                    .csrf().disable().cors().configurationSource(new CorsConfigurationFactory())
+                .and()
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil))
+                .addFilter(new JWTTokenValidatorFilter(authenticationManager(), jwtUtil))
                     .authorizeRequests()
                     .antMatchers("/api/v1/public/register", "/api/v1/public/auth").permitAll()
                     .anyRequest().authenticated();
