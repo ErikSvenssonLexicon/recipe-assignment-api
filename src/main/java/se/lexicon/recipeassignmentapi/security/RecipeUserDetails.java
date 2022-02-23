@@ -55,46 +55,42 @@ public class RecipeUserDetails implements UserDetails, Serializable {
         this.authorities = authorities;
     }
 
-    public boolean isSuspended() {
-        return suspended;
-    }
-
     public void setSuspended(boolean suspended) {
         this.suspended = suspended;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return suspended;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return suspended;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return suspended;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return suspended;
     }
 }
