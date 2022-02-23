@@ -76,21 +76,21 @@ public class RecipeUserDetails implements UserDetails, Serializable {
 
     @Override
     public boolean isAccountNonExpired() {
-        return suspended;
+        return !suspended;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return suspended;
+        return !suspended;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return suspended;
+        return !suspended;
     }
 
     @Override
     public boolean isEnabled() {
-        return suspended;
+        return !suspended;
     }
 }
