@@ -23,4 +23,6 @@ public interface RecipeRepository extends JpaRepository<Recipe, String> {
             countQuery = "SELECT r FROM Recipe r JOIN FETCH r.categories AS c WHERE UPPER(c.categoryName) = UPPER(:category) AND r.hidden = false AND r.published = true")
     Page<Recipe> searchByCategoryName(@Param("category") String categoryName, Pageable pageable);
 
+    List<Recipe> findByAuthorId(String authorId);
+
 }
