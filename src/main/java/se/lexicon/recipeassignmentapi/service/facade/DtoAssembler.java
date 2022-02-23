@@ -3,6 +3,7 @@ package se.lexicon.recipeassignmentapi.service.facade;
 import se.lexicon.recipeassignmentapi.model.dto.*;
 import se.lexicon.recipeassignmentapi.model.entity.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -91,5 +92,33 @@ public class DtoAssembler {
             recipeDto.setCategories(toCategoryDtoSet(recipe.getCategories()));
         }
         return recipeDto;
+    }
+
+    public RecipeAppUserDto toBasicRecipeAppUserDto(RecipeAppUser recipeAppUser){
+        RecipeAppUserDto dto = null;
+        if(recipeAppUser != null){
+            dto = new RecipeAppUserDto();
+            dto.setUsername(recipeAppUser.getUsername());
+            dto.setId(recipeAppUser.getId());
+            dto.setAppRole(recipeAppUser.getAppRole());
+            dto.setEmail(recipeAppUser.getEmail());
+            dto.setRegistrationDate(recipeAppUser.getRegistrationDate());
+            dto.setSuspended(recipeAppUser.isSuspended());
+        }
+        return dto;
+    }
+
+    public RecipeAppUserDto toFullRecipeAppUserDto(RecipeAppUser recipeAppUser, List<Recipe> recipes){
+        RecipeAppUserDto recipeAppUserDto = null;
+        if(recipeAppUser != null){
+            recipeAppUserDto = toBasicRecipeAppUserDto(recipeAppUser);
+            if(recipes == null) recipes = new ArrayList<>();
+            recipeAppUserDto.setRecipes(
+                    recipes.stream()
+                            .map(this::toFullRecipeDto)
+                            .collect(Collectors.toList())
+            );
+        }
+        return recipeAppUserDto;
     }
 }
