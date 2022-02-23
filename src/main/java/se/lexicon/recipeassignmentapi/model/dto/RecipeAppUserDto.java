@@ -28,6 +28,7 @@ public class RecipeAppUserDto implements Serializable {
     private String password;
     @NotBlank(message = MANDATORY_FIELD, groups = OnPost.class)
     private String passwordConfirm;
+    private String newPassword;
     private AppRole appRole;
     @NotBlank(message = MANDATORY_FIELD, groups = {OnPut.class, OnPost.class})
     @UniqueEmail(message = EMAIL_NOT_AVAILABLE, groups = OnPost.class)
@@ -125,5 +126,13 @@ public class RecipeAppUserDto implements Serializable {
 
     public void setRecipes(List<RecipeDto> recipes) {
         this.recipes = recipes;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 }
