@@ -26,8 +26,10 @@ public class RecipeAppUserDto implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @NotBlank(message = MANDATORY_FIELD, groups = OnPost.class)
     private String password;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @NotBlank(message = MANDATORY_FIELD, groups = OnPost.class)
     private String passwordConfirm;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String newPassword;
     private AppRole appRole;
     @NotBlank(message = MANDATORY_FIELD, groups = {OnPut.class, OnPost.class})
