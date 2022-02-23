@@ -29,6 +29,7 @@ public class Recipe {
     private boolean published;
     @Column(name = "hidden")
     private boolean hidden;
+    private String authorId;
 
     @OneToMany(
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
@@ -122,6 +123,14 @@ public class Recipe {
 
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
+    }
+
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(String author) {
+        this.authorId = author;
     }
 
     public List<RecipeInstruction> getRecipeInstructions() {
