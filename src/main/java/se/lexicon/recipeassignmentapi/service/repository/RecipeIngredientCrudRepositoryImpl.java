@@ -3,6 +3,8 @@ package se.lexicon.recipeassignmentapi.service.repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.recipeassignmentapi.model.dto.RecipeIngredientDto;
+import se.lexicon.recipeassignmentapi.model.entity.Ingredient;
+import se.lexicon.recipeassignmentapi.model.entity.Recipe;
 import se.lexicon.recipeassignmentapi.model.entity.RecipeIngredient;
 import se.lexicon.recipeassignmentapi.repository.RecipeIngredientRepository;
 
@@ -46,17 +48,34 @@ public class RecipeIngredientCrudRepositoryImpl implements RecipeIngredientCrudR
             throw new IllegalStateException("Id didn't match RecipeIngredientDto.id");
         }
         RecipeIngredient recipeIngredient = findById(id);
+        Ingredient originalIngredient = recipeIngredient.getIngredient();
+        Ingredient ingredient = null;
+
+        if(!form.getIngredient().getIngredientName().trim().equalsIgnoreCase(originalIngredient.getIngredientName())){
+            ingredient = ingredientCrudRepository.create(form.getIngredient());
+        }
+
         recipeIngredient.setMeasurement(form.getMeasurement().trim());
         recipeIngredient.setAmount(form.getAmount());
-        recipeIngredient.setIngredient(
-                form.getIngredient().getId() == null ? ingredientCrudRepository.create(form.getIngredient()) : ingredientCrudRepository.findById(form.getIngredient().getId())
-        );
-        return repository.save(recipeIngredient);
+        if(ingredient != null) recipeIngredient.setIngredient(ingredient);
+        recipeIngredient =  repository.save(recipeIngredient);
+
+        if(ingredient != null && repository.countUsagesByIngredientId(originalIngredient.getId()) == 0){
+            ingredientCrudRepository.delete(originalIngredient.getId());
+        }
+        return recipeIngredient;
     }
 
     @Override
     public boolean delete(String id) {
         repository.deleteById(id);
         return !repository.existsById(id);
+    }
+
+    @Override
+    public RecipeIngredient create(RecipeIngredientDto form, Recipe recipe) {
+        RecipeIngredient recipeIngredient = create(form);
+        recipeIngredient.setRecipe(recipe);
+        return recipeIngredient;
     }
 }
