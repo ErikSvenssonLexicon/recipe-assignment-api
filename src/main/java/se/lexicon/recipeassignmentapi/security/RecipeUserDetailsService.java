@@ -36,7 +36,7 @@ public class RecipeUserDetailsService implements UserDetailsService {
                         .map(appRole -> new SimpleGrantedAuthority(appRole.name()))
                         .collect(Collectors.toSet())
         );
-        recipeUserDetails.setSuspended(user.isSuspended());
+        recipeUserDetails.setNotSuspended(user.isSuspended());
 
         return recipeUserDetails;
     }

@@ -1,5 +1,6 @@
 package se.lexicon.recipeassignmentapi.service.repository;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,6 +8,7 @@ import se.lexicon.recipeassignmentapi.model.constants.AppRole;
 import se.lexicon.recipeassignmentapi.model.dto.RecipeAppUserDto;
 import se.lexicon.recipeassignmentapi.model.entity.RecipeAppUser;
 import se.lexicon.recipeassignmentapi.repository.AppUserRepository;
+import se.lexicon.recipeassignmentapi.security.RecipeUserDetails;
 
 @Service
 @Transactional
@@ -23,12 +25,12 @@ public class RecipeAppUserCrudRepositoryImpl implements RecipeAppUserCrudReposit
     @Override
     public RecipeAppUser create(RecipeAppUserDto dto) {
         if(dto == null) throw new IllegalStateException("RecipeAppUserDto dto was null");
-        if(dto.getPassword().equals(dto.getPasswordConfirm())){
+        if(!dto.getPassword().equals(dto.getPasswordConfirm())){
             throw new IllegalArgumentException("Provided password did not match the confirmation password");
         }
         RecipeAppUser recipeAppUser = new RecipeAppUser();
         recipeAppUser.setUsername(dto.getUsername().trim());
-        recipeAppUser.setPassword(passwordEncoder.encode(dto.getPassword().trim()));
+        recipeAppUser.setPassword(passwordEncoder.encode(dto.getPassword()));
         recipeAppUser.setEmail(dto.getEmail().trim());
         recipeAppUser.setSuspended(false);
         return appUserRepository.save(recipeAppUser);

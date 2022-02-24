@@ -1,11 +1,13 @@
 package se.lexicon.recipeassignmentapi.service.repository;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.recipeassignmentapi.model.dto.RecipeDto;
 import se.lexicon.recipeassignmentapi.model.entity.Recipe;
 import se.lexicon.recipeassignmentapi.model.entity.RecipeInstruction;
 import se.lexicon.recipeassignmentapi.repository.RecipeRepository;
+import se.lexicon.recipeassignmentapi.security.RecipeUserDetails;
 
 import java.util.stream.Collectors;
 
@@ -69,7 +71,8 @@ public class RecipeCrudRepositoryImpl implements RecipeCrudRepository{
                     .collect(Collectors.toList())
             );
         }
-
+        RecipeUserDetails authorDetails = (RecipeUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        recipe.setAuthorId(authorDetails.getUserId());
         return repository.save(recipe);
     }
 

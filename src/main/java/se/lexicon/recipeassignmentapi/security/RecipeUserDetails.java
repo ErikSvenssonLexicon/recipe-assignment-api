@@ -13,15 +13,15 @@ public class RecipeUserDetails implements UserDetails, Serializable {
     private String password;
     private String email;
     private Collection<GrantedAuthority> authorities;
-    private boolean suspended;
+    private boolean notSuspended;
 
-    public RecipeUserDetails(String userId, String username, String password, String email, Collection<GrantedAuthority> authorities, boolean suspended) {
+    public RecipeUserDetails(String userId, String username, String password, String email, Collection<GrantedAuthority> authorities, boolean notSuspended) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.email = email;
         this.authorities = authorities;
-        this.suspended = suspended;
+        this.notSuspended = notSuspended;
     }
 
     public RecipeUserDetails() {
@@ -55,8 +55,8 @@ public class RecipeUserDetails implements UserDetails, Serializable {
         this.authorities = authorities;
     }
 
-    public void setSuspended(boolean suspended) {
-        this.suspended = suspended;
+    public void setNotSuspended(boolean notSuspended) {
+        this.notSuspended = notSuspended;
     }
 
     @Override
@@ -76,21 +76,21 @@ public class RecipeUserDetails implements UserDetails, Serializable {
 
     @Override
     public boolean isAccountNonExpired() {
-        return !suspended;
+        return !notSuspended;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return !suspended;
+        return !notSuspended;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return !suspended;
+        return !notSuspended;
     }
 
     @Override
     public boolean isEnabled() {
-        return !suspended;
+        return !notSuspended;
     }
 }
