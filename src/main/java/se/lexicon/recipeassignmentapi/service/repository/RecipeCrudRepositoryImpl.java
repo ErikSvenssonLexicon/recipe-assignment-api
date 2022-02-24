@@ -41,7 +41,6 @@ public class RecipeCrudRepositoryImpl implements RecipeCrudRepository{
 
     @Transactional
     public Recipe internalUpdate(RecipeDto form, Recipe recipe){
-        if(recipe == null) recipe = new Recipe();
         recipe.setRecipeTitle(form.getRecipeTitle().trim());
         //Non required field when creating a Recipe, conditionally set if present
         recipe.setRecipeDescription(form.getRecipeDescription() == null ? "" : form.getRecipeDescription().trim());
@@ -54,6 +53,7 @@ public class RecipeCrudRepositoryImpl implements RecipeCrudRepository{
                 RecipeInstruction recipeInstruction;
                 if(dto.getId() == null){
                     recipeInstruction = new RecipeInstruction();
+                    recipeInstruction.setRecipe(recipe);
                     recipeInstruction.setInstruction(dto.getInstruction().trim());
                     recipeInstruction = instructionRepository.save(recipeInstruction);
                 }else {
@@ -63,20 +63,9 @@ public class RecipeCrudRepositoryImpl implements RecipeCrudRepository{
 
                 instructionList.add(recipeInstruction);
             }
-            recipe.setRecipeInstructions(instructionList);
+            recipe.getRecipeInstructions().clear();
+            recipe.getRecipeInstructions().addAll(instructionList);
         }
-
-            /*
-            Streaming through dtos and converting them to entities.
-            Will work with detached recipeIngredient entities because of CascadeType.Persist
-             recipe.setRecipeInstructions(form.getRecipeInstructions().stream()
-                    .map(dto -> {
-                        return dto.getId() == null ? instructionRepository.save(new RecipeInstruction(null, dto.getInstruction())) : instructionRepository.getById(dto.getId());
-                    })
-                    .collect(Collectors.toList())
-            );
-            */
-
 
             if(form.getCategories() != null && form.getCategories().size() > 0){
                 recipe.setCategories(form.getCategories().stream()
@@ -93,8 +82,7 @@ public class RecipeCrudRepositoryImpl implements RecipeCrudRepository{
     @Override
     public Recipe create(RecipeDto form) {
         if(form == null) throw new IllegalArgumentException("RecipeDto was null");
-        Recipe recipe = new Recipe();
-        recipe = internalUpdate(form, recipe);
+        Recipe recipe = internalUpdate(form, new Recipe());
 
         if(form.getRecipeIngredients() != null && form.getRecipeIngredients().size() > 0){
             //Streaming through dtos and converting them to entities by delegating to RecipeIngredientCrudRepository
@@ -119,19 +107,19 @@ public class RecipeCrudRepositoryImpl implements RecipeCrudRepository{
         if(id == null) throw new IllegalArgumentException("id was null");
         if(form == null) throw new IllegalArgumentException("form.id was null");
         if(!id.equals(form.getId())) throw new IllegalStateException("Id did not match form.id");
-        Recipe recipe = findById(id);
-        recipe = internalUpdate(form, recipe);
+        Recipe recipe = internalUpdate(form, findById(id));
 
         if(form.getRecipeIngredients() != null && form.getRecipeIngredients().size() > 0){
             List<RecipeIngredient> recipeIngredients = new ArrayList<>();
             for(var dto : form.getRecipeIngredients()){
                 if(dto.getId() == null){
-                    recipeIngredients.add(recipeIngredientCrudRepository.create(dto));
+                    recipeIngredients.add(recipeIngredientCrudRepository.create(dto, recipe));
                 }else{
                     recipeIngredients.add(recipeIngredientCrudRepository.update(dto.getId(), dto));
                 }
             }
-            recipe.setRecipeIngredients(recipeIngredients);
+            recipe.getRecipeIngredients().clear();
+            recipe.getRecipeIngredients().addAll(recipeIngredients);
         }
 
         return repository.save(recipe);
