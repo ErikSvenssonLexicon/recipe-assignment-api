@@ -5,4 +5,5 @@ import se.lexicon.recipeassignmentapi.model.entity.Recipe;
 import se.lexicon.recipeassignmentapi.service.GenericCrudRepository;
 
 public interface RecipeCrudRepository extends GenericCrudRepository<Recipe, String, RecipeDto> {
+    boolean delete(Recipe recipe);
 }

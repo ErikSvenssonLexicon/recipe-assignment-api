@@ -12,7 +12,7 @@ import static se.lexicon.recipeassignmentapi.validation.ValidationMessages.MANDA
 @Validated
 public class CategoryDto implements Serializable {
 
-    @NotBlank(groups = OnPut.class)
+
     private String id;
     @NotBlank(message = MANDATORY_FIELD, groups = {OnPut.class, OnPost.class})
     private String categoryName;

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.recipeassignmentapi.model.dto.RecipeDto;
+import se.lexicon.recipeassignmentapi.model.entity.Recipe;
 import se.lexicon.recipeassignmentapi.repository.RecipeRepository;
 import se.lexicon.recipeassignmentapi.service.repository.RecipeCrudRepository;
 
@@ -40,7 +41,8 @@ public class RecipeServiceImpl extends DtoAssembler implements RecipeService{
 
     @Override
     public boolean delete(String id) {
-        return crudRepository.delete(id);
+        Recipe recipe = crudRepository.findById(id);
+        return crudRepository.delete(recipe);
     }
 
     @Override

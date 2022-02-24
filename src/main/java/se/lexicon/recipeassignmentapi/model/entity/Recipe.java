@@ -4,10 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "recipes")
@@ -32,7 +29,7 @@ public class Recipe {
     private String authorId;
 
     @OneToMany(
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+            cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "recipe",
             orphanRemoval = true
@@ -40,7 +37,7 @@ public class Recipe {
     private List<RecipeInstruction> recipeInstructions;
 
     @OneToMany(
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+            cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "recipe",
             orphanRemoval = true
@@ -48,7 +45,7 @@ public class Recipe {
     private List<RecipeIngredient> recipeIngredients;
 
     @ManyToMany(
-            cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH},
+            cascade = {CascadeType.DETACH, CascadeType.REFRESH},
             fetch = FetchType.LAZY
     )
     @JoinTable(
@@ -173,6 +170,14 @@ public class Recipe {
     }
 
     public void setCategories(Set<Category> categories) {
+        if(categories == null) categories = new HashSet<>();
+        if(categories.isEmpty()){
+            if(this.categories != null){
+                this.categories.forEach(category -> category.getRecipes().remove(this));
+            }
+        }else{
+            categories.forEach(category -> category.getRecipes().add(this));
+        }
         this.categories = categories;
     }
 
@@ -184,5 +189,18 @@ public class Recipe {
     @PreUpdate
     void preUpdate(){
         setLastUpdate(LocalDateTime.now());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return Objects.equals(id, recipe.id) && Objects.equals(recipeTitle, recipe.recipeTitle);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, recipeTitle);
     }
 }

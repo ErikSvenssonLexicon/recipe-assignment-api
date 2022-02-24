@@ -30,7 +30,8 @@ public class JWTTokenValidatorFilter extends BasicAuthenticationFilter {
         String token = request.getHeader(AUTHORIZATION);
         if(token != null){
             try{
-                if(!token.startsWith(BEARER)){
+                if(token.startsWith(BEARER)){
+                    token = token.substring(BEARER.length());
                     Claims claims = jwtUtil.parseClaims(token);
                     RecipeUserDetails recipeUserDetails = jwtUtil.fromClaims(claims);
                     Authentication authentication = new UsernamePasswordAuthenticationToken(

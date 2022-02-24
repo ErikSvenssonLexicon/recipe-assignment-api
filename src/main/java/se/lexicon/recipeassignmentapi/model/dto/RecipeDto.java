@@ -26,6 +26,8 @@ public class RecipeDto implements Serializable {
     private LocalDateTime lastUpdate;
     private boolean published;
     private boolean hidden;
+    @NotBlank
+    private String authorId;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<@Valid RecipeInstructionDto> recipeInstructions;
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -118,5 +120,13 @@ public class RecipeDto implements Serializable {
 
     public void setCategories(Set<CategoryDto> categories) {
         this.categories = categories;
+    }
+
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
     }
 }

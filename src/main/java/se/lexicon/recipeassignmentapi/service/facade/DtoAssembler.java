@@ -78,6 +78,7 @@ public class DtoAssembler {
             recipeDto.setLastUpdate(recipe.getLastUpdate());
             recipeDto.setPublished(recipe.isPublished());
             recipeDto.setHidden(recipe.isHidden());
+            recipeDto.setAuthorId(recipe.getAuthorId());
         }
         return recipeDto;
     }

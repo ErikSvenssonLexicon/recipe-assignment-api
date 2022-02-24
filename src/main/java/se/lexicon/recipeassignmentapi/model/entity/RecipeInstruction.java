@@ -16,7 +16,7 @@ public class RecipeInstruction {
     private String id;
     @Column(name = "instruction", length = 500)
     private String instruction;
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH} , fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST} , fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_recipe_id")
     private Recipe recipe;
 

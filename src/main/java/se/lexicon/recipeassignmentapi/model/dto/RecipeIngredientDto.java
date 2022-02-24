@@ -17,7 +17,6 @@ import static se.lexicon.recipeassignmentapi.validation.ValidationMessages.POSIT
 @Validated
 public class RecipeIngredientDto implements Serializable {
 
-    @NotBlank(groups = OnPut.class)
     private String id;
     @NotNull(message = MANDATORY_FIELD, groups = {OnPut.class, OnPost.class})
     @Positive(message = POSITIVE_VALUE, groups = {OnPut.class, OnPost.class})

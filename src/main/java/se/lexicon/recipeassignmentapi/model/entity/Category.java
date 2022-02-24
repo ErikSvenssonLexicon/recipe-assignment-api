@@ -3,7 +3,9 @@ package se.lexicon.recipeassignmentapi.model.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "app_categories")
@@ -16,6 +18,13 @@ public class Category {
     private String id;
     @Column(name = "category", unique = true)
     private String categoryName;
+
+    @ManyToMany(
+            cascade = {CascadeType.DETACH, CascadeType.REFRESH},
+            fetch = FetchType.LAZY,
+            mappedBy = "categories"
+    )
+    private Set<Recipe> recipes;
 
     public Category(String id, String categoryName) {
         this.id = id;
@@ -39,6 +48,15 @@ public class Category {
 
     public void setCategoryName(String category) {
         this.categoryName = category;
+    }
+
+    public Set<Recipe> getRecipes() {
+        if(recipes == null) recipes = new HashSet<>();
+        return recipes;
+    }
+
+    public void setRecipes(Set<Recipe> recipes) {
+        this.recipes = recipes;
     }
 
     @Override
