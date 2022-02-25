@@ -29,7 +29,7 @@ public class Recipe {
     private String authorId;
 
     @OneToMany(
-            cascade = CascadeType.ALL,
+            cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE},
             fetch = FetchType.LAZY,
             mappedBy = "recipe",
             orphanRemoval = true
@@ -37,7 +37,7 @@ public class Recipe {
     private List<RecipeInstruction> recipeInstructions;
 
     @OneToMany(
-            cascade = CascadeType.ALL,
+            cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE},
             fetch = FetchType.LAZY,
             mappedBy = "recipe",
             orphanRemoval = true
@@ -136,7 +136,10 @@ public class Recipe {
     }
 
     public void setRecipeInstructions(List<RecipeInstruction> recipeInstructions) {
-        this.recipeInstructions = recipeInstructions;
+        if(recipeInstructions == null) recipeInstructions = new ArrayList<>();
+        if(this.recipeInstructions == null) this.recipeInstructions = new ArrayList<>();
+        this.recipeInstructions.clear();
+        this.recipeInstructions.addAll(recipeInstructions);
     }
 
     public List<RecipeIngredient> getRecipeIngredients() {
@@ -145,7 +148,10 @@ public class Recipe {
     }
 
     public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
-        this.recipeIngredients = recipeIngredients;
+        if(recipeIngredients == null) recipeIngredients = new ArrayList<>();
+        if(this.recipeIngredients == null) this.recipeIngredients = new ArrayList<>();
+        this.recipeIngredients.clear();
+        this.recipeIngredients.addAll(recipeIngredients);
     }
 
     public Set<Category> getCategories() {
