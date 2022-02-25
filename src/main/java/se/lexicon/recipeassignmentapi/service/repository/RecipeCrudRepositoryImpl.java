@@ -87,7 +87,7 @@ public class RecipeCrudRepositoryImpl implements RecipeCrudRepository{
         if(form.getRecipeIngredients() != null && form.getRecipeIngredients().size() > 0){
             //Streaming through dtos and converting them to entities by delegating to RecipeIngredientCrudRepository
             recipe.setRecipeIngredients(form.getRecipeIngredients().stream()
-                    .map(recipeIngredientCrudRepository::create)
+                    .map(recipeIngredientDto -> recipeIngredientCrudRepository.create(recipeIngredientDto, recipe))
                     .collect(Collectors.toList())
             );
         }
